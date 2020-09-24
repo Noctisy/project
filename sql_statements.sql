@@ -3,16 +3,20 @@ CREATE DATABASE project1
 
 --tabel account aangemaakt
 create table account(
-id int not null AUTO_INCREMENT,
-email varchar(250) UNIQUE,
-password varchar(250),
-primary key(id)
+    id INT NOT NULL AUTO_INCREMENT,
+    email varchar(250) UNIQUE,
+    password varchar(250),
+    PRIMARY KEY(id)
 );
 
 --Tabel persoon aangemaakt
 create table persoon(
-id int not null AUTO_INCREMENT,
-username varchar(250),
-primary key(id),
-FOREIGN KEY (id) REFERENCES account(id)
+    id INT NOT NULL AUTO_INCREMENT,
+    account_id INT NOT NULL,
+    username varchar(250) NOT NULL,
+    firstname varchar(250) NOT NULL,
+    middlename varchar(250),
+    lastname varchar(250) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (account_id) REFERENCES account(id)
 );

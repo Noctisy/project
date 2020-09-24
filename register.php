@@ -1,36 +1,25 @@
+<!-- Yusa Celiker -->
+
 <html>
-<head>
-  <title>Registration system PHP and MySQL</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <div class="header">
-  	<h2>Register</h2>
-  </div>
-	
-  <form method="post" action="register.php">
-  	<div class="input-group">
-  	  <label>Username</label>
-  	  <input type="text" name="username">
-  	</div>
-  	<div class="input-group">
-  	  <label>Email</label>
-  	  <input type="email" name="email">
-  	</div>
-  	<div class="input-group">
-  	  <label>Password</label>
-  	  <input type="password" name="password_1">
-  	</div>
-  	<div class="input-group">
-  	  <label>Confirm password</label>
-  	  <input type="password" name="password_2">
-  	</div>
-  	<div class="input-group">
-  	  <button type="submit" class="btn" name="reg_user">Register</button>
-  	</div>
-  	<p>
-  		Already a member? <a href="login.php">Sign in</a>
-  	</p>
-  </form>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>Registratie scherm</title>
+  </head>
+
+  <body>
+  	<form method="post" action='register.php' method='post' accept-charset='UTF-8'>
+      <fieldset >
+        <legend>Registratie</legend>
+        <input type="text" name="uname" placeholder="Gebruikersnaam" required/>
+        <input type="text" name="uname" placeholder="Voornaam" required/>
+      	<input type="text" name="mname" placeholder="Middelnaam" required/>
+      	<input type="text" name="lname" placeholder="Achternaam" required/><br/>
+        <input type="email" name="email" placeholder="E-mail" required/>
+        <input type="password" name="pwd" placeholder="Wachtwoord" required/>
+        <input type="password" name="repeatpwd" placeholder="Herhaal wachtwoord" required/>
+        <input type="submit" value"Sign up!"/>
+      </fieldset>
+      <a href="login.php">Ik heb al een account. Login!</a>
+    </form>
+  </body>
 </html>

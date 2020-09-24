@@ -1,23 +1,24 @@
-<form id='login' action='login.php' method='post' accept-charset='UTF-8'>
-	<fieldset >
-		<legend>Login</legend>
-		<input type='hidden' name='submitted' id='submitted' value='1'/>
-
-		<label for='username' >Username*:</label>
-		<input type='text' name='username' id='username'  maxlength="50" />
-
-		<label for='password' >Password*:</label>
-		<input type='password' name='password' id='password' maxlength="50" />
-
-		<input type='submit' name='Submit' value='Submit' />
-
-	</fieldset>
-
-  	<p>
-  		Not a member? <a href="register.php">Sign Up</a>
-  	</p>
-
-  	<p>
-  		Reset Password? <a href="reset.php">Reset</a>
-  	</p>
-</form>
+<!-- Yusa Celiker -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>login pagina</title>
+	</head>
+	<body>
+		<form id='login' action='login.php' method='post' accept-charset='UTF-8'>
+			<fieldset >
+				<legend>Login</legend>
+				<input type="text" name="uname" placeholder="Username" required/>
+				<input type="text" name="pword" placeholder="Password" required/>
+				<input type='submit' name='Submit' value='Submit' />
+			</fieldset>
+		  	<p>
+		  		Not a member? <a href="register.php">Sign Up</a>
+		  	</p>
+		  	<p>
+		  		Reset Password? <a href="reset.php">Reset</a>
+		  	</p>
+		</form>
+	</body>
+</html>
