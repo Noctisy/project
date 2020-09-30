@@ -1,3 +1,4 @@
+-- Yusa Celiker
 CREATE DATABASE project1
 --databse gemaakt
 
@@ -20,3 +21,12 @@ create table persoon(
     PRIMARY KEY (id),
     FOREIGN KEY (account_id) REFERENCES account(id)
 );
+
+-- insert entry into table account
+INSERT INTO account VALUES (NULL, 'Kees', 'k.geldstraat@rocva.nl', 'admin')
+
+-- create a variable and store id of matchin email (email=unique)
+SET @V1 := (SELECT id FROM account WHERE email='k.geldstraat@rocva.nl');
+
+-- insert enrty into persoon, use account_id from table account (@v1)
+INSERT INTO persoon VALUES (null, @v1, 'kees', '', 'geldstraat');
