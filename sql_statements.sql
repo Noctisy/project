@@ -30,3 +30,8 @@ SET @V1 := (SELECT id FROM account WHERE email='k.geldstraat@rocva.nl');
 
 -- insert enrty into persoon, use account_id from table account (@v1)
 INSERT INTO persoon VALUES (null, @v1, 'kees', '', 'geldstraat');
+
+-- insert enrty into persoon, use account_id from table account (@v1)
+INSERT INTO persoon VALUES (null, @v1, 'kees', '', 'geldstraat');
+
+ALTER TABLE account ADD username (VARCHAR(250) NOT NULL);
