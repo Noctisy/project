@@ -4,7 +4,6 @@
 include 'database.php';
 include 'helperfunctions.php';
 
-if($_POST['submit']){
   // maak een array met alle name attributes
   $fields = [
     	"uname",
@@ -22,7 +21,7 @@ if($no_error){
   $db = new database('localhost', 'root', '', 'project1', 'utf8');
   $db->authenticate_user($username, $password);
 }
-}
+
 
  ?>
 
@@ -38,8 +37,9 @@ if($no_error){
 				<legend>Login</legend>
 				<input type="text" name="uname" placeholder="Username" required/>
 				<input type="password" name="pword" placeholder="Password" required/>
-				<input type='submit' name="submit" value='submit' />
+        <input type='submit' name="submit" value='submit' />
 			</fieldset>
+
 		  	<p>
 		  		Not a member? <a href="register.php">Sign Up</a>
 		  	</p>

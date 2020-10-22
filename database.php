@@ -11,20 +11,24 @@
 class database{
   // class met allemaal private variables aangemaakt (property)
   private $host;
-  private $db;
+  private $database;
   private $user;
   private $pass;
   private $charset;
   private $pdo;
 
-  public function __construct($host, $user, $pass, $db, $charset){
+  const ADMIN = 1; // moet overeen komen met values in de db!
+  const USER = 2;
+
+  public function __construct($host, $user, $pass, $database, $charset){
     $this->host = $host;
     $this->user = $user;
     $this->pass = $pass;
+    $this->database = $database;
     $this->charset = $charset;
 
     try {
-        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+        $dsn = "mysql:host=$host;dbname=$database;charset=$charset";
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -39,13 +43,13 @@ class database{
     }
   }
 
-  private function create_or_update_account($email, $pass, $username){
+  private function create_or_update_account($username, $email, $pass){
     // todo: fixme: add usertype_id to the account table (bij de insert fk ref)
     // maak een sql statement (type string)
     $query = "INSERT INTO account
-          (email, password, username)
+          (id, type_id, username, email, password, created_at, updated_at )
           VALUES
-          (:email, :password, :username)";
+          (NULL, :type_id, :username, :email, :password, :created_at, :updated_at)";
 
     // prepared statement -> statement zit een statement object in (nog geen data!)
     $statement = $this->pdo->prepare($query);
@@ -53,30 +57,48 @@ class database{
     // password hashen
     $hashed_password =  password_hash($pass, PASSWORD_DEFAULT);
 
+    // huidige datetime ophalen in php, en deze meegeven aan de assoc array in de execute
+    $created_at = date('Y-m-d H:i:s');
+     $updated_at = date('Y-m-d H:i:s');
+
     // execute de statement (deze maakt de db changes)
-    $statement->execute(['email'=>$email, 'password'=>$hashed_password, 'username'=>$username]);
+    $statement->execute([
+    'type_id'=>self::USER,
+    'username'=>$username,
+    'email'=>$email,
+    'password'=>$hashed_password,
+    'created_at'=>$created_at,
+    'updated_at'=>$updated_at
+  ]);
 
     // haalt de laatst toegevoegde id op uit de db
     $account_id = $this->pdo->lastInsertId();
     return $account_id;
   }
 
-  private function create_or_update_persoon($uname, $fname, $mname, $lname, $account_id){
+
+  private function create_or_update_persoon($fname, $mname, $lname, $account_id){
     // table person vullen
-    $query = "INSERT INTO persoon
-          (account_id, firstname, middlename, lastname)
+    $query = "INSERT INTO person
+          (id, account_id, first_name, middle_name, last_name, created_at, updated_at)
           VALUES
-          (:account_id, :firstname, :middlename, :lastname)";
+          (NULL, :account_id, :fname, :mname, :lname, :created_at, :updated_at)";
 
     // returned een statmenet object
     $statement = $this->pdo->prepare($query);
 
-    // execute prepared statement
-    $statement->execute(['account_id'=>$account_id, 'firstname'=>$fname, 'middlename'=>$mname, 'lastname'=>$lname ]);
+    $created_at = $updated_at = date('Y-m-d H:i:s');
 
-    $persoon_id = $this->pdo->lastInsertId();
-    return $persoon_id;
-  }
+    // execute prepared statement
+    $statement->execute([
+    'account_id'=>$account_id,
+    'fname'=>$fname,
+    'mname'=>$mname,
+    'lname'=>$lname,
+    'created_at'=>$created_at,
+    'updated_at'=>$updated_at
+  ]);
+}
 
   public function create_or_update_user($uname, $fname, $mname, $lname, $pass, $email){
 
@@ -84,9 +106,9 @@ class database{
       // begin een database transaction
       $this->pdo->beginTransaction();
 
-      $account_id = $this->create_or_update_account($email, $pass, $uname);
+      $account_id = $this->create_or_update_account($uname, $email, $pass);
 
-      $this->create_or_update_persoon($uname, $fname, $mname, $lname, $account_id);
+      $this->create_or_update_persoon($fname, $mname, $lname, $account_id);
 
       // commit
       $this->pdo->commit();
